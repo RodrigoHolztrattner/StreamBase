@@ -153,11 +153,13 @@
   <ItemGroup>
     <ClCompile Include="..\..\Common\StreamBaseCommonObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="StreamBaseObjectHolder.cpp" />
     <ClCompile Include="StreamBaseServer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\StreamBaseCommonHeader.h" />
     <ClInclude Include="..\..\Common\StreamBaseCommonObject.h" />
+    <ClInclude Include="StreamBaseObjectHolder.h" />
     <ClInclude Include="StreamBaseServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

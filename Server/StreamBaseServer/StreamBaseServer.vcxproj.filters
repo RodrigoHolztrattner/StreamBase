@@ -4,10 +4,12 @@
     <ClCompile Include="StreamBaseServer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="..\..\Common\StreamBaseCommonObject.cpp" />
+    <ClCompile Include="StreamBaseObjectHolder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StreamBaseServer.h" />
     <ClInclude Include="..\..\Common\StreamBaseCommonHeader.h" />
     <ClInclude Include="..\..\Common\StreamBaseCommonObject.h" />
+    <ClInclude Include="StreamBaseObjectHolder.h" />
   </ItemGroup>
 </Project>
