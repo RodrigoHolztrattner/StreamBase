@@ -1,6 +1,4 @@
-### StreamBase
-
-Made by Rodrigo Holztrattner Reis
+### StreamBase - Made by Rodrigo Holztrattner Reis
 
 # Considerations
 
@@ -124,5 +122,6 @@ current one much more then what is expected to be.
 ----
 
 Thank you for the opportunity! Hope to hear from you soon!
+
 Rodrigo Holztrattner Reis
  
