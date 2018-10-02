@@ -1,8 +1,8 @@
-# StreamBase
+### StreamBase
 
 Made by Rodrigo Holztrattner Reis
 
-# Introduction and considerations
+# Considerations
 
 Hello, this is my attempt to implement the StreamBase client/server application, following the given requirements.
 I would like to say that I never used the named pipe API but I found it really similar to network messaging (UDP/TCP), so 
@@ -54,13 +54,13 @@ simple then using the interfaced ideia for this test so I will keep it for simpl
 
 Store the JSON into a file and read from it whenever the server starts.
 
-----
-
 # How to build:
 
 Both the client and the server folders have a "CMakeLists.txt" file, just use cmake on each of them.
 
-# Common between server and client:
+# Implementation Details
+
+### Common between server and client:
 
 All the messages have a header (defined on the **StreamBaseCommonHeader.h** file) + the data, the header contains the 
 message ID and the data size and the data is operation-dependent.
@@ -75,7 +75,7 @@ both a name and a counter.
 I'm using a JSON library (with a MIT license) that I love, it allows me to serialize and create json much more easily with
 c++, the library github can be found here: https://github.com/nlohmann/json
 
-# How the server works:
+### How the server works:
 
 The server will begin listening for both synchronous and asynchronous connection requests, it will create a separated thread
 for incomming synchronous requests and wait for them unsing a blocking call to **ConnectNamedPipe** without an OVERLAPPED 
@@ -90,7 +90,7 @@ is much simple to do that way).
 There is a **StreamBaseObjectHolder** class that will hold all objects that were created and updated by clients, also this
 class will attempt to save those objects on disk and load them on start, do the data here is persistent.
 
-* How the client works:
+### How the client works:
 
 First the user will be prompted to choose between connection to the server using the synchronous pipe or the assynchronous 
 pipe.
@@ -106,7 +106,10 @@ the **WriteFile** operation will block until complete, in case of an asynchronou
 passed, creating a new event that is handled by a separated thread. This thread will check for incomming events and will
 call a callback, if necessary, to complete the main operation.
 
-* Other aspects
+Also I think that is important to add that the client needs to register 2 callback methods, one to receive the object name
+list from the server and another to update the current selected object when retrieving it by index.
+
+### Other aspects
 
 I used something around 7 hours to implement the code and perform researches.
 
@@ -118,11 +121,8 @@ No security checks were made, like checking if the input number is a number and 
 disconnection checks, they could be easly added but that of course would take a time that would possible increase the 
 current one much more then what is expected to be.
 
+----
 
 Thank you for the opportunity! Hope to hear from you soon!
 Rodrigo Holztrattner Reis
-
-
-Also I think that is important to add that the client needs to register 2 callback methods, one to receive the object name
-list from the server and another to update the current selected object when retrieving it by index.
  
