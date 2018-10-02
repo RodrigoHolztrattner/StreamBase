@@ -1,8 +1,8 @@
 # StreamBase
 
-# Made by Rodrigo Holztrattner Reis
+Made by Rodrigo Holztrattner Reis
 
-----
+# Introduction and considerations
 
 Hello, this is my attempt to implement the StreamBase client/server application, following the given requirements.
 I would like to say that I never used the named pipe API but I found it really similar to network messaging (UDP/TCP), so 
@@ -14,53 +14,53 @@ downside of this is that some lines contains a comment that is almost exactly as
 
 I will point what I understanded by your requirements and further below explain what I've implemented: 
 
-1 - The client should be able to connect to the server through a NamedPipe
+### 1 - The client should be able to connect to the server through a NamedPipe
 
 Ok, not a big deal, just create a NamedPipe on the server and make the client get a handle to it.
 One point here is the support for multiple clients, so each client will have its own unique handle.
 
-2 - The client should be able to make both sync and async calls to the server
+### 2 - The client should be able to make both sync and async calls to the server
 
 Same as networking, client can send/write to the server and if it should be done synchronously the operation must block
 until it finish, in case of an asynchronous operation I need to register a callback and the operation itself will not block.
 
-3 - The client should be able to send trivial data (strings, numbers) to the server
+### 3 - The client should be able to send trivial data (strings, numbers) to the server
 
 Receive input from the user and send to the server, simple.
 
-4 - The client should be able to create objects on the server (based on req-7 below), retrieve them, their attributes and call methods on them
+### 4 - The client should be able to create objects on the server (based on req-7 below), retrieve them, their attributes and call methods on them
 
 JSON or something similar for sure. I will create a common class between the client and the server with support for serialization
 and pass the object serialized between the pipe.
 
-5 - The server should be able to receive both sync/async connection requests from clients
+### 5 - The server should be able to receive both sync/async connection requests from clients
 
 I think it's impossible to have the same named pipe listen for both synchronous and asynchronous requests so I will use 2
 named pipes and ask the client what it wants to connect to.
 On the server side I probably will have one separated thread that will listen to synchronous connection requests (this one 
 will block until receive a request) and another that will wait for an event for a given asynchronous request.
 
-6 - The server should be able to store data provided by the client via NamedPipe in a reasonable data structure
+### 6 - The server should be able to store data provided by the client via NamedPipe in a reasonable data structure
 
 Save the strings/numbers using a pair with the client ID + string/number. I don't know if these data should be stored on
 disk, probably not.
 
-7 - The server should be able to register a custom class (w/ related functions, attributes) which can be used by the client (see req-4)
+### 7 - The server should be able to register a custom class (w/ related functions, attributes) which can be used by the client (see req-4)
 
 Register like creating an interface with virtual methods or just use a common class? I think the common class is more 
 simple then using the interfaced ideia for this test so I will keep it for simplicity.
 
-8 - The server should be able to store the custom objects created by the client for the custom class created in req-7
+### 8 - The server should be able to store the custom objects created by the client for the custom class created in req-7
 
 Store the JSON into a file and read from it whenever the server starts.
 
 ----
 
-* How to build:
+# How to build:
 
 Both the client and the server folders have a "CMakeLists.txt" file, just use cmake on each of them.
 
-* Common between server and client:
+# Common between server and client:
 
 All the messages have a header (defined on the **StreamBaseCommonHeader.h** file) + the data, the header contains the 
 message ID and the data size and the data is operation-dependent.
@@ -75,7 +75,7 @@ both a name and a counter.
 I'm using a JSON library (with a MIT license) that I love, it allows me to serialize and create json much more easily with
 c++, the library github can be found here: https://github.com/nlohmann/json
 
-* How the server works:
+# How the server works:
 
 The server will begin listening for both synchronous and asynchronous connection requests, it will create a separated thread
 for incomming synchronous requests and wait for them unsing a blocking call to **ConnectNamedPipe** without an OVERLAPPED 
